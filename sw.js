@@ -1,4 +1,4 @@
-const V='ikra-web-105',CORE=['./','index.html','manifest.webmanifest','icons/ikra-icon-192.png','icons/ikra-icon-512.png','icons/ikra-icon-maskable-512.png','icons/apple-touch-icon-180.png'];
+const V='ikra-web-106',CORE=['./','index.html','manifest.webmanifest','icons/ikra-icon-192.png','icons/ikra-icon-512.png','icons/ikra-icon-maskable-512.png','icons/apple-touch-icon-180.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V&&x!=='ikra-fb').map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method==='GET'&&u.hostname==='www.gstatic.com'&&u.pathname.indexOf('/firebasejs/')===0){e.respondWith(caches.open('ikra-fb').then(c=>c.match(r).then(m=>m||fetch(r).then(res=>{if(res&&(res.ok||res.type==='opaque'))c.put(r,res.clone());return res}))));return}if(r.method!=='GET'||u.origin!==location.origin)return;
