@@ -1,0 +1,32 @@
+{
+ "name": "OKU — Kur’an Ezber Takibi",
+ "short_name": "OKU",
+ "description": "Kur'an ezber ve tekrar takip uygulaması",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#0F3B36",
+ "theme_color": "#0F3B36",
+ "lang": "tr",
+ "icons": [
+  {
+   "src": "icons/ikra-icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/ikra-icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/ikra-icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
