@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "app.netlify.okumektebim.twa",
-    "sha256_cert_fingerprints": ["29:80:3C:AC:90:D2:2A:A5:D0:66:FB:C1:A5:0C:45:89:0F:9E:F2:B4:12:AF:1C:8F:C8:04:66:FA:63:F6:03:BC"]
+    "package_name": "io.github.okumektebim.twa",
+    "sha256_cert_fingerprints": ["D5:F3:A9:82:4F:E4:33:F2:06:08:EB:EE:7B:76:AF:86:42:BE:E2:36:70:C8:EE:9A:D6:45:59:B7:DC:3B:88:A0"]
   }
 }]
