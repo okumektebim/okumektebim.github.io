@@ -562,7 +562,7 @@ const ROWS=[
 ['avEm',"Emoji","Emoji","إيموجي","ئېموجى"],
 ['avCl',"Harfe dön","Use letter","الحرف","ھەرپكە قايتىش"],
 ['wkXc',"İzin gününde girilen ders sayılsın","Count lessons entered on the day off","احتساب الدروس المسجّلة في يوم الإجازة","تەتىل كۈنىدە كىرگۈزۈلگەن دەرس ھېسابلانسۇن"],
-['wkXcH',"Açıksa: yukarıda seçilen haftalık izin gününde ders girilirse o gün ek ders sayılır ve derecelendirmeye puan olarak eklenir. Kapalıysa izin günündeki dersler puana katılmaz.","On: if a lesson is entered on a selected weekly day off, that day counts as an extra lesson and adds to the ranking score. Off: lessons on a day off do not count toward the score.","عند التفعيل: إذا سُجّل درس في يوم الإجازة الأسبوعية المحدد فيُحتسب يومًا إضافيًا ويُضاف إلى نقاط الترتيب. عند الإيقاف لا تُحتسب دروس يوم الإجازة.","ئېچىلسا: يۇقىرىدا تاللانغان ھەپتىلىك تەتىل كۈنىدە دەرس كىرگۈزۈلسە، شۇ كۈن قوشۇمچە دەرس ھېسابلىنىپ دەرىجىگە نومۇر بولۇپ قوشۇلىدۇ. تاقاق بولسا تەتىل كۈنىدىكى دەرسلەر نومۇرغا قوشۇلمايدۇ."],
+['wkXcH',"Açıksa: izin gününde girilen dersin puanı, seçilen günlerin toplam puanına eklenir. Gün sayısı artmaz, toplam yine seçilen gün sayısına bölünür. Kapalıysa izin günündeki dersler puana katılmaz.","On: the score of a lesson entered on a day off is added to the total of the selected days. The day count does not increase; the total is still divided by the selected days. Off: lessons on a day off do not count.","عند التفعيل: تُضاف درجة الدرس المسجّل في يوم الإجازة إلى مجموع الأيام المحددة دون زيادة عدد الأيام، ويُقسم المجموع على الأيام المحددة. عند الإيقاف لا تُحتسب.","ئېچىلسا: تەتىل كۈنىدە كىرگۈزۈلگەن دەرسنىڭ نومۇرى تاللانغان كۈنلەرنىڭ جەمئىي نومۇرىغا قوشۇلىدۇ. كۈن سانى كۆپەيمەيدۇ، جەمئىي يەنىلا تاللانغان كۈن سانىغا بۆلۈنىدۇ. تاقاق بولسا تەتىل كۈنىدىكى دەرسلەر ھېسابلانمايدۇ."],
 ['noClass',"Sınıfsız","No class","بدون صف","سىنىپسىز"],
 ['save',"Kaydet","Save","حفظ","ساقلاش"],
 ['cancel',"İptal","Cancel","إلغاء","بىكار قىلىش"],
@@ -1528,7 +1528,7 @@ function weekly(sch,days){
  const SF=schFirstMap();const W=list.map(x=>{if(x.nq){const G=S.grades.filter(g=>g.sid===x.id&&g.k==='wk'&&g.date>=from&&g.date<=today),av=G.length?Math.round(G.reduce((a,g)=>a+(+g.v||0),0)/G.length*10)/10:0;return{s:x,m:0,r:0,n:G.length,pts:av,gd:G.length,vd:G.length,k:0,mt:{e:0,t:0,o:0},ea:null,ta:null,es:0,ts:0,nq:1}}let m=0,r=0,n=0;const by={};S.lessons.forEach(l=>{if(l.sid===x.id&&l.date>=from&&l.date<=today&&l.res!=='r'){const p=pc(l);if(l.kind==='hifz')m+=p;else if(l.kind==='rev')r+=p;n++}});
   const mt=stMt(x);let first='9999';S.lessons.forEach(l=>{if(l.sid===x.id&&l.date<first)first=l.date});
   S.lessons.forEach(l=>{if(l.sid!==x.id||l.date<from||l.date>today)return;const k=l.kind==='hifz'?'e':l.kind==='rev'?'t':null;if(!k||!mt[k])return;const sc=l.res==='r'?0:lsc(l);if(sc==null)return;const d=by[l.date]||(by[l.date]={});const q=d[k]||(d[k]={s:0,n:0});q.s+=sc;q.n++});
-  const man={};S.grades.forEach(g=>{if(g.sid===x.id&&g.k==='hifz')man[g.date]=+g.v});let SE=0,ST=0,vd=0,gd=0;for(let d=from;d<=today;d=addDays(d,1)){if(d<(x.reg?(x.reg<first?x.reg:first):(SF[x.sch]||first)))continue;if(lvOn(x.id,d))continue;{const ho=holOf(x.sch,d);if(ho&&!(ho.weekly&&((S.wkoff||{})[x.sch]||[]).includes(9)&&(by[d]||man[d]!=null)))continue}const b=by[d],mg=man[d];if(!b&&mg==null&&d===T0&&new Date().getHours()<17)continue;vd++;if(!b&&mg==null)continue;gd++;const kv=k=>b&&b[k]?b[k].s/b[k].n:(mg!=null?mg:0);if(mt.e)SE+=kv('e');if(mt.t)ST+=kv('t')}
+  const man={};S.grades.forEach(g=>{if(g.sid===x.id&&g.k==='hifz')man[g.date]=+g.v});let SE=0,ST=0,vd=0,gd=0;for(let d=from;d<=today;d=addDays(d,1)){if(d<(x.reg?(x.reg<first?x.reg:first):(SF[x.sch]||first)))continue;if(lvOn(x.id,d))continue;const b=by[d],mg=man[d];{const ho=holOf(x.sch,d);if(ho){if(ho.weekly&&((S.wkoff||{})[x.sch]||[]).includes(9)&&(b||mg!=null)){const k0=k=>b&&b[k]?b[k].s/b[k].n:(mg!=null?mg:0);if(mt.e)SE+=k0('e');if(mt.t)ST+=k0('t')}continue}}if(!b&&mg==null&&d===T0&&new Date().getHours()<17)continue;vd++;if(!b&&mg==null)continue;gd++;const kv=k=>b&&b[k]?b[k].s/b[k].n:(mg!=null?mg:0);if(mt.e)SE+=kv('e');if(mt.t)ST+=kv('t')}
   const nk=(mt.e?1:0)+(mt.t?1:0),ea=vd?Math.round(SE/vd):null,ta=vd?Math.round(ST/vd):null,pts=vd&&nk?Math.round(((mt.e?ea:0)+(mt.t?ta:0))/nk*10)/10:0;return{s:x,m,r,n,pts,gd,vd,k:mt.e?m:r,mt,ea,ta,es:Math.round(SE),ts:Math.round(ST)}}).sort((a,b)=>b.pts-a.pts||a.s.id-b.s.id);
  [W.filter(x=>!x.nq),W.filter(x=>x.nq)].forEach(G=>{const rm=rankPts(G,x=>x.pts),rq=rankSeq(G,x=>x.k);G.forEach(x=>{x.rank=rm.get(x);x.rankM=rq.get(x)})});
  return W;
@@ -2634,7 +2634,7 @@ document.addEventListener('input',e=>{
  else if(id==='enHw'&&ENT){ENT.hw=e.target.value}
 });
 /* BUILD: iç yapı numarası. Gösterilen sürüm her 15 yapıda 1 artar (yapı 100 -> sürüm 4, 115 -> 5, 130 -> 6) */
-const BUILD=116,APPVER=4+Math.floor((BUILD-100)/15);
+const BUILD=117,APPVER=4+Math.floor((BUILD-100)/15);
 let annPend=null,avTmp={pic:'',emo:''};
 const EMJ=['😀','😊','😇','🤩','😎','🥳','🤗','🧒','👦','👧','🧕','📖','🕌','🌙','⭐','🌟','🌷','🌸','🌳','🌈','🦋','🐱','🐶','🐰','🦁','🐼','🦉','🐢','🍎','⚽','🚀','💎'];
 function avPv(){const p=$('#avPv'),n=$('#eN');if(p)p.innerHTML=av((n&&n.value)||'?','big',avTmp)}
